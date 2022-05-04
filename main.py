@@ -33,10 +33,11 @@ white=(255,255,255)
 
 #Text
 texto=pygame.font.SysFont(None,30)
-
+texto2=pygame.font.SysFont(None,20)
 #RenderText
 
 label=texto.render("Quintero Chiquito",True,(255,255,255))
+label2=texto2.render("Yo era bonito y bien estudioso de morro, pero me lastime la rodilla",True,(0,0,0))
 
 #Atributos y while:
 x=10
@@ -60,6 +61,7 @@ while True:
     win.blit(quinterobg,[0,0])
     win.blit(linkchiquito,(x,y))
     win.blit(label,(160,40))
+    win.blit(label2,(50,450))
     pygame.display.update()
 
 
