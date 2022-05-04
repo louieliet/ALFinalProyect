@@ -17,10 +17,11 @@ print(x)
 quintero=pygame.image.load("quintero.jpg")
 link=pygame.image.load("icon.png")
 linkchiquito=pygame.transform.scale(link,(50,50))
+quinterobg=pygame.transform.scale(quintero,(500,500))
 
 #Init
 pygame.init()
-win=pygame.display.set_mode((1200,800))
+win=pygame.display.set_mode((500,500))
 pygame.display.set_caption("Proyecto Álgebra")
 pygame.display.set_icon(linkchiquito)
 
@@ -49,7 +50,7 @@ while True:
             if event.key==K_a:
                 x=x-80
 
-    win.fill(white)
+    win.blit(quinterobg,[0,0])
     win.blit(linkchiquito,(x,y))
     pygame.display.update()
 
