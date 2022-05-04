@@ -31,6 +31,13 @@ pygame.mouse.set_cursor(*pygame.cursors.diamond)
 #White
 white=(255,255,255)
 
+#Text
+texto=pygame.font.SysFont(None,30)
+
+#RenderText
+
+label=texto.render("Quintero Chiquito",True,(255,255,255))
+
 #Atributos y while:
 x=10
 y=10
@@ -52,6 +59,7 @@ while True:
 
     win.blit(quinterobg,[0,0])
     win.blit(linkchiquito,(x,y))
+    win.blit(label,(160,40))
     pygame.display.update()
 
 
