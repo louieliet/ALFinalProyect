@@ -34,16 +34,19 @@ white=(255,255,255)
 #Text
 texto=pygame.font.SysFont(None,30)
 texto2=pygame.font.SysFont(None,20)
-#RenderText
 
+#RenderText
 label=texto.render("Quintero Chiquito",True,(255,255,255))
 label2=texto2.render("Yo era bonito y bien estudioso de morro, pero me lastime la rodilla",True,(0,0,0))
 
 #Atributos y while:
 x=10
 y=10
+linkrotating=0
+
 while True:
     
+    linkrotating+=1
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -57,9 +60,10 @@ while True:
                 x=x+80
             if event.key==K_a:
                 x=x-80
+    linkchiquitocopy=pygame.transform.rotate(linkchiquito,linkrotating)
 
     win.blit(quinterobg,[0,0])
-    win.blit(linkchiquito,(x,y))
+    win.blit(linkchiquitocopy,(x,y))
     win.blit(label,(160,40))
     win.blit(label2,(50,450))
     pygame.display.update()
