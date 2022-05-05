@@ -52,13 +52,19 @@ red=(255,0,0)
 
 
 
-def main():
+def get_pos():
+    pos = pygame.mouse.get_pos()
+    return (pos)
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
+def draw_circle():
+    pos=get_pos()
+    pygame.draw.circle(mapbg, BLUE, pos, 20)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
 
         if event.type==pygame.KEYDOWN:
             if event.key==K_w:
@@ -108,16 +114,10 @@ def main():
 
 
 
-def get_pos():
-    pos = pygame.mouse.get_pos()
-    return (pos)
 
-def draw_circle():
-    pos=get_pos()
-    pygame.draw.circle(mapbg, BLUE, pos, 20)
 
-if __name__ == "__main__":
-    main()
+
+
 
     
 
