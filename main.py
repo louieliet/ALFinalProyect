@@ -1,5 +1,4 @@
 from lib2to3.pygram import python_grammar_no_print_statement
-import numpy as np
 import pygame, sys
 from pygame.locals import*
 import math
@@ -7,68 +6,85 @@ import random
 from pygame import mixer
 
 
-a=np.array([[2,4,6],[4,5,6],[3,1,-2]])
-b=np.array([18,24,4])
-x=np.linalg.solve(a,b)
-print(x)
-
-
-#Player
-quintero=pygame.image.load("quintero.jpg")
-link=pygame.image.load("icon.png")
-linkchiquito=pygame.transform.scale(link,(50,50))
-quinterobg=pygame.transform.scale(quintero,(500,500))
-
-#Init
+#Init Pygame
 pygame.init()
-win=pygame.display.set_mode((500,500))
+size=(734,508)
 pygame.display.set_caption("Proyecto Álgebra")
-pygame.display.set_icon(linkchiquito)
+win=pygame.display.set_mode(size)
 
-#Cursor
-pygame.mouse.set_cursor(*pygame.cursors.diamond)
+clock=pygame.time.Clock()
 
-#White
-white=(255,255,255)
+#Init bgmap
+maporiginal=pygame.image.load("map.jpg")
+mapbg=pygame.transform.scale(maporiginal,size)
+
+#Init icon
+mapicon=pygame.image.load("mapicon.png")
+pygame.display.set_icon(mapicon)
+
+#Init Player
+playermaximized=pygame.image.load("playericon.png")
+player=pygame.transform.scale(playermaximized,(15,20))
 
 #Text
 texto=pygame.font.SysFont(None,30)
 texto2=pygame.font.SysFont(None,20)
 
-#RenderText
-label=texto.render("Quintero Chiquito",True,(255,255,255))
-label2=texto2.render("Yo era bonito y bien estudioso de morro, pero me lastime la rodilla",True,(0,0,0))
-
 #Atributos y while:
-x=10
-y=10
-linkrotating=0
+playercopy=player
+
+x = 0
+y = 0
+
+xspeed = 0
+yspeed = 0
+
+
 
 while True:
-    
-    linkrotating+=1
+
     for event in pygame.event.get():
+
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+
         if event.type==pygame.KEYDOWN:
             if event.key==K_w:
-                y=y-80
+                yspeed = -2
+                playercopy=pygame.transform.rotate(player,0)
             if event.key==K_s:
-                y=y+80
+                yspeed = 2
+                playercopy=pygame.transform.rotate(player,180)
             if event.key==K_d:
-                x=x+80
+                xspeed = 2
+                playercopy=pygame.transform.rotate(player,-90)
             if event.key==K_a:
-                x=x-80
-    linkchiquitocopy=pygame.transform.rotate(linkchiquito,linkrotating)
+                xspeed = -2
+                playercopy=pygame.transform.rotate(player,90)
 
-    win.blit(quinterobg,[0,0])
-    win.blit(linkchiquitocopy,(x,y))
-    win.blit(label,(160,40))
-    win.blit(label2,(50,450))
+        if event.type==pygame.KEYUP:
+            if event.key==K_w:
+                yspeed=0
+            if event.key==K_s:
+                yspeed=0
+            if event.key==K_d:
+                xspeed=0
+            if event.key==K_a:
+                xspeed=0
+    
+    
+    x+=xspeed
+    y+=yspeed
+
+    #Game
+    win.blit(mapbg,[0,0])
+    win.blit(playercopy,(x,y))
     pygame.display.update()
+    clock.tick(60)
 
-
+    
+    
 
     
 
