@@ -116,9 +116,6 @@ def draw_circle():
     pos=get_pos()
     pygame.draw.circle(mapbg, BLUE, pos, 20)
 
-
-
-    
 if __name__ == "__main__":
     main()
 
