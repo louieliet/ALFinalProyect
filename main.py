@@ -1,6 +1,6 @@
 from cgitb import text
 from lib2to3.pygram import python_grammar_no_print_statement
-import pygame, sys
+import pygame, sys, time
 from pygame.locals import*
 import math
 import random
@@ -13,13 +13,14 @@ size=(734,508)
 pygame.display.set_caption("Proyecto Álgebra")
 win=pygame.display.set_mode(size)
 
+
 clock=pygame.time.Clock()
 
-WHITE =     (255, 255, 255)
-BLUE =      (  0,   0, 255)
-GREEN =     (  0, 255,   0)
-RED =       (255,   0,   0)
-TEXTCOLOR = (  0,   0,  0)
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+TEXTCOLOR = (0, 0, 0)
 
 #Init bgmap
 maporiginal=pygame.image.load("map.jpg")
@@ -51,22 +52,26 @@ yspeed = 0
 red=(255,0,0)
 
 
+class Marcador():
+    def drawposition(self):
+        pos=pygame.mouse.get_pos()
+        pygame.draw.circle(mapbg,BLUE,pos,5)
 
-def get_pos():
-    pos = pygame.mouse.get_pos()
-    return (pos)
+m1=Marcador()
 
-def draw_circle():
-    pos=get_pos()
-    pygame.draw.circle(mapbg, BLUE, pos, 20)
+#Main:
 
 while True:
+
+#Mientras corra el juego:
     for event in pygame.event.get():
+        #Cierre del juego
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
 
-        if event.type==pygame.KEYDOWN:
+#Si presionamos una telca:
+        if event.type == pygame.KEYDOWN:
             if event.key==K_w:
                 yspeed = -2
                 playercopy=pygame.transform.rotate(player,0)
@@ -80,7 +85,11 @@ while True:
                 xspeed = -2
                 playercopy=pygame.transform.rotate(player,90)
 
-        if event.type==pygame.KEYUP:
+            if event.key==K_SPACE:
+                m1.drawposition()
+
+#Si dejamos de presionar las telcas:
+        if event.type == pygame.KEYUP:
             if event.key==K_w:
                 yspeed=0
             if event.key==K_s:
@@ -90,25 +99,27 @@ while True:
             if event.key==K_a:
                 xspeed=0
         
-        if event.type==pygame.MOUSEBUTTONDOWN:
-            draw_circle()
-            pygame.display.update()
-            
+        
 
     x+=xspeed
     y+=yspeed
     positionk=(x,y)
 
     #RenderText
-    kcoo=texto.render(str("Cordenadas objeto"+str(positionk)),True,(0,0,0))
-    #pdist=texto.render(str("Distancia objeto-> punto"+str(dist)),True,(0,0,0))
+    COORDENADAS_OBJETO=texto.render(str("Cordenadas objeto"+str(positionk)),True,(0,0,0))
 
     #Game
+
+    #Background map
     win.blit(mapbg,[0,0])
+    #Display object
     win.blit(playercopy,(x,y))
-    win.blit(kcoo,(0,0))
-    #win.blit(mcoo,(0,485))
-    #win.blit(pdist,(300,0))
+    #Display position of object text
+    win.blit(COORDENADAS_OBJETO,(0,0))
+
+
+
+    #Do not touch
     pygame.display.update()
     clock.tick(60)
 
