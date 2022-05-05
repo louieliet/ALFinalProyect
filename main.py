@@ -15,6 +15,12 @@ win=pygame.display.set_mode(size)
 
 clock=pygame.time.Clock()
 
+WHITE =     (255, 255, 255)
+BLUE =      (  0,   0, 255)
+GREEN =     (  0, 255,   0)
+RED =       (255,   0,   0)
+TEXTCOLOR = (  0,   0,  0)
+
 #Init bgmap
 maporiginal=pygame.image.load("map.jpg")
 mapbg=pygame.transform.scale(maporiginal,size)
@@ -45,6 +51,13 @@ yspeed = 0
 
 red=(255,0,0)
 
+def get_pos():
+    pos = pygame.mouse.get_pos()
+    return (pos)
+
+def draw_circle():
+    pos=get_pos()
+    pygame.draw.circle(mapbg, BLUE, pos, 20)
 
 while True:
 
@@ -79,28 +92,24 @@ while True:
                 xspeed=0
         
         if event.type==pygame.MOUSEBUTTONDOWN:
-            positionm=pygame.mouse.get_pos()
-            destination=pygame.draw.circle(mapbg,red,positionm,2)
-    
-    
+            draw_circle()
+            pygame.display.update()
+            
+
     x+=xspeed
     y+=yspeed
-
-    positionm=pygame.mouse.get_pos()
     positionk=(x,y)
-    dist = math.sqrt((positionm[0]-positionk[0])**2 + (positionm[1]-positionk[1])**2)
 
     #RenderText
     kcoo=texto.render(str("Cordenadas objeto"+str(positionk)),True,(0,0,0))
-    mcoo=texto.render(str("Cordenadas mouse"+str(positionm)),True,(0,0,0))
-    pdist=texto.render(str("Distancia objeto->mouse"+str(dist)),True,(0,0,0))
+    #pdist=texto.render(str("Distancia objeto-> punto"+str(dist)),True,(0,0,0))
 
     #Game
     win.blit(mapbg,[0,0])
     win.blit(playercopy,(x,y))
     win.blit(kcoo,(0,0))
-    win.blit(mcoo,(0,485))
-    win.blit(pdist,(300,0))
+    #win.blit(mcoo,(0,485))
+    #win.blit(pdist,(300,0))
     pygame.display.update()
     clock.tick(60)
 
