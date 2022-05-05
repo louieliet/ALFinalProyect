@@ -43,7 +43,7 @@ y = 0
 xspeed = 0
 yspeed = 0
 
-
+red=(255,0,0)
 
 
 while True:
@@ -77,11 +77,14 @@ while True:
                 xspeed=0
             if event.key==K_a:
                 xspeed=0
+        
+        if event.type==pygame.MOUSEBUTTONDOWN:
+            positionm=pygame.mouse.get_pos()
+            destination=pygame.draw.circle(mapbg,red,positionm,2)
     
     
     x+=xspeed
     y+=yspeed
-
 
     positionm=pygame.mouse.get_pos()
     positionk=(x,y)
@@ -90,7 +93,7 @@ while True:
     #RenderText
     kcoo=texto.render(str("Cordenadas objeto"+str(positionk)),True,(0,0,0))
     mcoo=texto.render(str("Cordenadas mouse"+str(positionm)),True,(0,0,0))
-    pdist=texto.render(str("Distancia objeto -> mouse"+str(dist)),True,(0,0,0))
+    pdist=texto.render(str("Distancia objeto->mouse"+str(dist)),True,(0,0,0))
 
     #Game
     win.blit(mapbg,[0,0])
