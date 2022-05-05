@@ -33,6 +33,9 @@ texto2=pygame.font.SysFont(None,20)
 #Atributos y while:
 playercopy=player
 
+#Init cursor
+
+
 x = 0
 y = 0
 
@@ -77,11 +80,19 @@ while True:
     x+=xspeed
     y+=yspeed
 
+
+    #mousepos=pygame.mouse.get_pos()
+    #print(mousepos)
+    position=[x,y]
+    print(position)
+
+
     #Game
     win.blit(mapbg,[0,0])
     win.blit(playercopy,(x,y))
     pygame.display.update()
     clock.tick(60)
+
 
     
     
