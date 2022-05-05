@@ -1,3 +1,4 @@
+from cgitb import text
 from lib2to3.pygram import python_grammar_no_print_statement
 import pygame, sys
 from pygame.locals import*
@@ -33,14 +34,15 @@ texto2=pygame.font.SysFont(None,20)
 #Atributos y while:
 playercopy=player
 
-#Init cursor
-
+#Text
+texto=pygame.font.SysFont(None,30)
 
 x = 0
 y = 0
 
 xspeed = 0
 yspeed = 0
+
 
 
 
@@ -81,15 +83,21 @@ while True:
     y+=yspeed
 
 
-    #mousepos=pygame.mouse.get_pos()
-    #print(mousepos)
-    position=[x,y]
-    print(position)
+    positionm=pygame.mouse.get_pos()
+    positionk=(x,y)
+    dist = math.sqrt((positionm[0]-positionk[0])**2 + (positionm[1]-positionk[1])**2)
 
+    #RenderText
+    kcoo=texto.render(str("Cordenadas objeto"+str(positionk)),True,(0,0,0))
+    mcoo=texto.render(str("Cordenadas mouse"+str(positionm)),True,(0,0,0))
+    pdist=texto.render(str("Distancia objeto -> mouse"+str(dist)),True,(0,0,0))
 
     #Game
     win.blit(mapbg,[0,0])
     win.blit(playercopy,(x,y))
+    win.blit(kcoo,(0,0))
+    win.blit(mcoo,(0,485))
+    win.blit(pdist,(300,0))
     pygame.display.update()
     clock.tick(60)
 
