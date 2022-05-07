@@ -55,7 +55,7 @@ red=(255,0,0)
 
 class Marcador():
     def drawposition(self):
-        win.clear()
+
         pos=pygame.mouse.get_pos()
         pygame.draw.circle(mapbg,BLUE,pos,5)
 
