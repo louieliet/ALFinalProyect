@@ -1,5 +1,6 @@
 from cgitb import text
 from lib2to3.pygram import python_grammar_no_print_statement
+from tkinter import EventType
 import pygame, sys, time
 from pygame.locals import*
 import math
@@ -54,12 +55,14 @@ red=(255,0,0)
 
 class Marcador():
     def drawposition(self):
+        win.clear()
         pos=pygame.mouse.get_pos()
         pygame.draw.circle(mapbg,BLUE,pos,5)
 
 m1=Marcador()
 
 #Main:
+
 
 while True:
 
@@ -87,6 +90,7 @@ while True:
 
             if event.key==K_SPACE:
                 m1.drawposition()
+
 
 #Si dejamos de presionar las telcas:
         if event.type == pygame.KEYUP:
@@ -117,11 +121,8 @@ while True:
     #Display position of object text
     win.blit(COORDENADAS_OBJETO,(0,0))
 
-
-
     #Do not touch
     pygame.display.update()
-    clock.tick(60)
 
 
 
