@@ -203,13 +203,19 @@ def up_map():
 def credits():
     running = True
 
+    fontcredits = pygame.font.SysFont("Helvetica", 20)
+
+    creditsbg = pygame.image.load("webg.jpeg")
+    creditsbg = pygame.transform.scale(creditsbg,(100,140))
+
     while running:
         screen.fill(WHITE)
+        screen.blit(creditsbg,(210,280))
 
-        escribir("- Integrantes: -",font,BLACK,screen,20,20)
-        escribir("- Emi -",font,BLACK,screen,20,30)
-        escribir("- Ari -",font,BLACK,screen,20,40)
-        escribir("- Liz -",font,BLACK,screen,20,50)
+        escribir("Integrantes:",fontcredits,BLACK,screen,210,20)
+        escribir("- Emiliano Montes Gómez -",fontcredits,BLACK,screen,151,100)
+        escribir("- Ariana Rodriguez Castañeda -",fontcredits,BLACK,screen,138,150)
+        escribir("- Lizbeth Rocío Trujillo Salgado -",fontcredits,BLACK,screen,135,200)
 
 
         for event in pygame.event.get():
