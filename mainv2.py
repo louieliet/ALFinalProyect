@@ -50,7 +50,10 @@ def mainmenu(click):
                 credits()
         
         pygame.draw.rect(screen,RED,button_1)
+        menu_font=pygame.font.SysFont("Hevetica",35)
+        escribir("Consultar Mapa",menu_font,BLACK,screen,105,110)
         pygame.draw.rect(screen,RED,button_2)
+        escribir("Creditos",menu_font,BLACK,screen,145,215)
         click = False
 
         #We define what does every key do
@@ -68,7 +71,6 @@ def mainmenu(click):
 
         pygame.display.update()
 
-
 def up_map():
 
     running = True
@@ -78,6 +80,11 @@ def up_map():
     xspeed = 0
     yspeed = 0
 
+    x2 = 0
+    y2 = 0
+    x2speed = 0
+    y2speed = 0
+
     #Setting a new window name
     pygame.display.set_caption("Mapa")
     
@@ -85,14 +92,23 @@ def up_map():
     mapbackground = pygame.image.load("map.jpg")
     mapbackground = pygame.transform.scale(mapbackground,size)
 
+    marcador = pygame.image.load("marcador.jpg")
+    marcador = pygame.transform.scale(marcador,(10,10))
+
     #Creating an surface object called user and its rect
     user = pygame.image.load("playericon.png")
     user = pygame.transform.scale(user,(15,20))
     usercopy = user
     user_rect = user.get_rect()
 
+    user2 = pygame.image.load("playericon2.png")
+    user2 = pygame.transform.scale(user2,(15,20))
+    user2copy = user2
+    
+
     while running:
         escribir("- Mapa -",font,BLACK,screen,20,20)
+        
         for event in pygame.event.get():
 
             if event.type == QUIT:
@@ -101,18 +117,33 @@ def up_map():
             
             if event.type == pygame.KEYDOWN:
                 if event.key==K_w:
-                    yspeed = -0.25
+                    yspeed = -0.5
                     usercopy=pygame.transform.rotate(user,0)
                 if event.key==K_s:
-                    yspeed = 0.25
+                    yspeed = 0.5
                     usercopy=pygame.transform.rotate(user,180)
                 if event.key==K_d:
-                    xspeed = 0.25
+                    xspeed = 0.5
                     usercopy=pygame.transform.rotate(user,-90)
                 if event.key==K_a:
-                    xspeed = -0.25
-                    user_rect.move_ip(-0.25,0)
+                    xspeed = -0.5
                     usercopy=pygame.transform.rotate(user,90)
+
+                if event.key==K_UP:
+                    y2speed = -0.5
+                    user2copy=pygame.transform.rotate(user2,0)
+                if event.key==K_DOWN:
+                    y2speed = 0.5
+                    user2copy=pygame.transform.rotate(user2,180)
+                if event.key==K_RIGHT:
+                    x2speed = 0.5
+                    user2copy=pygame.transform.rotate(user2,-90)
+                if event.key==K_LEFT:
+                    x2speed = -0.5
+                    user2copy=pygame.transform.rotate(user2,90)
+
+                if event.key == K_ESCAPE:
+                    running = False
 
             
             if event.type == pygame.KEYUP:
@@ -124,21 +155,44 @@ def up_map():
                     xspeed=0
                 if event.key==K_a:
                     xspeed=0
-        
+                    
+                if event.key==K_UP:
+                    y2speed=0
+                if event.key==K_DOWN:
+                    y2speed=0
+                if event.key==K_RIGHT:
+                    x2speed=0
+                if event.key==K_LEFT:
+                    x2speed=0
+
+
         x += xspeed
         y += yspeed
         user_position = (x,y)
-        user_rect.x = x
-        user_rect.y = y
-        user_rect_position=(user_rect.x,user_rect.y)
-        COORDENADAS = font.render(str("Cordenadas objeto"+str(user_position)),True,(0,0,0))
-        user_rect_position = (user_rect.x,user_rect.y)
-        COORDENADAS_RECT = font.render(str("Cordenadas rect"+str(user_rect_position)),True,(0,0,0))
 
-        screen.blit(mapbackground,[0,0])
+        x2 += x2speed
+        y2 += y2speed
+        user2_position = (x2,y2)
+   
+        dist = math.sqrt((x-x2)**2 + (y-y2)**2)
+
+        kcoo_font = pygame.font.SysFont("Helvetica",15)
+        mcoo_font = pygame.font.SysFont("Helvetica",15)
+        pdist_font = pygame.font.SysFont("Helvetica",15)
+
+
+        mcoo = mcoo_font.render(str("Cordenadas persona 2: "+str(user2_position)),True,(255,255,255),(0,0,0))
+        kcoo = kcoo_font.render(str("Cordenadas persona 1: "+str(user_position)),True,(255,255,255),(0,0,0))
+        pdist = pdist_font.render(str("Distancia entre los dos puntos: "+str(dist)),True,(255,255,255),(0,0,0))
+                
+        screen.blit(mapbackground,(0,0))
+        screen.blit(pdist,(0,0))
         screen.blit(usercopy,(x,y))
-        screen.blit(COORDENADAS,(0,0))
-        screen.blit(COORDENADAS_RECT,(0,10))
+        screen.blit(user2copy,(x2,y2))
+        screen.blit(kcoo,(0,460))
+        screen.blit(mcoo,(0,485))
+ 
+
         pygame.display.update()
 
 
