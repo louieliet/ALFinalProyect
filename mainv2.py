@@ -1,7 +1,7 @@
-from turtle import position
-import pygame, sys, math, random
+import pygame, sys, math, random, os
 from pygame.locals import *
 from pygame import mixer
+
 
 #Init
 size = (500,500)
@@ -17,6 +17,28 @@ BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
+
+
+#Define class user
+
+class User(object):
+    def __init__(self):
+        self.rect = pygame.rect.Rect((64, 54, 16, 16))
+
+    def handle_keys(self):
+        key = pygame.key.get_pressed()
+        dist = 1
+        if key[pygame.K_LEFT]:
+           self.rect.move_ip(-0.25, 0)
+        if key[pygame.K_RIGHT]:
+           self.rect.move_ip(0.25, 0)
+        if key[pygame.K_UP]:
+           self.rect.move_ip(0, -0.25)
+        if key[pygame.K_DOWN]:
+           self.rect.move_ip(0, 0.25)
+
+    def draw(self, surface):
+        pygame.draw.rect(screen, (0, 0, 128), self.rect)
 
 
 def escribir(text, font, color, surface, x, y):
@@ -70,6 +92,8 @@ def mainmenu(click):
         pygame.display.update()
 
 
+user = User()
+
 def up_map(click):
 
     running = True
@@ -81,67 +105,17 @@ def up_map(click):
     mapbackground = pygame.image.load("map.jpg")
     mapbackground = pygame.transform.scale(mapbackground,size)
 
-    #Creating an user surface object and a user Marcador object
-    user = pygame.image.load("playericon.png")
-    user = pygame.transform.scale(user,(15,20))
-    usercopy = user
-
-    x = 0
-    y = 0
-    xspeed = 0
-    yspeed = 0
-
     while running:
         escribir("- Mapa -",font,BLACK,screen,20,20)
-    
         for event in pygame.event.get():
-
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            
-            if event.type == KEYDOWN:
-
-                if event.key == K_ESCAPE:
-                    running = False
-            
-                if event.key == K_w:
-                    yspeed = -0.25
-                    usercopy = pygame.transform.rotate(user,0)
-
-                if event.key == K_s:
-                    yspeed = 0.25
-                    usercopy = pygame.transform.rotate(user,180)
-
-                if event.key == K_d:
-                    xspeed = 0.25
-                    usercopy = pygame.transform.rotate(user,-90)
-
-                if event.key == K_a:
-                    xspeed = -0.25
-                    usercopy = pygame.transform.rotate(user,90)
-                
-                if event.key == K_SPACE:
-                    usercopy.get_rect()
-
-            if event.type == pygame.KEYUP:
-                if event.key == K_w:
-                    yspeed = 0
-                if event.key == K_s:
-                    yspeed = 0
-                if event.key == K_d:
-                    xspeed = 0
-                if event.key == K_a:
-                    xspeed = 0
-                   
-        x += xspeed
-        y += yspeed
-        positionk = (x,y)
-        userpos = font.render(str("Cordenadas objeto"+str(positionk)),True,(0,0,0))
+        
         screen.blit(mapbackground,[0,0])
-        screen.blit(usercopy,(x,y))
-        screen.blit(userpos,(0,0))
 
+        user.draw(screen)
+        user.handle_keys()
         pygame.display.update()
 
 
