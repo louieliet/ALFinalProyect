@@ -19,28 +19,6 @@ RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
 
-#Define class user
-
-class User(object):
-    def __init__(self):
-        self.rect = pygame.rect.Rect((64, 54, 16, 16))
-
-    def handle_keys(self):
-        key = pygame.key.get_pressed()
-        dist = 1
-        if key[pygame.K_LEFT]:
-           self.rect.move_ip(-0.25, 0)
-        if key[pygame.K_RIGHT]:
-           self.rect.move_ip(0.25, 0)
-        if key[pygame.K_UP]:
-           self.rect.move_ip(0, -0.25)
-        if key[pygame.K_DOWN]:
-           self.rect.move_ip(0, 0.25)
-
-    def draw(self, surface):
-        pygame.draw.rect(screen, (0, 0, 128), self.rect)
-
-
 def escribir(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
@@ -48,7 +26,6 @@ def escribir(text, font, color, surface, x, y):
     surface.blit(textobj,textrect)
 
 #Atribute of click
-
 click = False
 
 #Main menu
@@ -92,30 +69,77 @@ def mainmenu(click):
         pygame.display.update()
 
 
-user = User()
-
 def up_map(click):
 
     running = True
+    
+    x = 0
+    y = 0
+    xspeed = 0
+    yspeed = 0
 
     #Setting a new window name
     pygame.display.set_caption("Mapa")
     
-    #Creating a surface object with our map and scaling it
+    #Creating a surface object with our map and scaling it to put it as background
     mapbackground = pygame.image.load("map.jpg")
     mapbackground = pygame.transform.scale(mapbackground,size)
+
+    #Creating an surface object called user and its rect
+    user = pygame.image.load("playericon.png")
+    user = pygame.transform.scale(user,(15,20))
+    usercopy = user
+    user_rect = user.get_rect()
 
     while running:
         escribir("- Mapa -",font,BLACK,screen,20,20)
         for event in pygame.event.get():
+
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-        
-        screen.blit(mapbackground,[0,0])
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key==K_w:
+                    yspeed = -0.25
+                    user_rect.move_ip(0,-0.25)
+                    usercopy=pygame.transform.rotate(user,0)
+                if event.key==K_s:
+                    yspeed = 0.25
+                    user_rect.move_ip(0,0.25)
+                    usercopy=pygame.transform.rotate(user,180)
+                if event.key==K_d:
+                    xspeed = 0.25
+                    user_rect.move_ip(0.25,0)
+                    usercopy=pygame.transform.rotate(user,-90)
+                if event.key==K_a:
+                    xspeed = -0.25
+                    user_rect.move_ip(-0.25,0)
+                    usercopy=pygame.transform.rotate(user,90)
 
-        user.draw(screen)
-        user.handle_keys()
+            
+            if event.type == pygame.KEYUP:
+                if event.key==K_w:
+                    yspeed=0
+                if event.key==K_s:
+                    yspeed=0
+                if event.key==K_d:
+                    xspeed=0
+                if event.key==K_a:
+                    xspeed=0
+        
+        x += xspeed
+        y += yspeed
+        user_position = (x,y)
+        user_rect_position=(user_rect.x,user_rect.y)
+        COORDENADAS = font.render(str("Cordenadas objeto"+str(user_position)),True,(0,0,0))
+        user_rect_position = (user_rect.x,user_rect.y)
+        COORDENADAS_RECT = font.render(str("Cordenadas rect"+str(user_rect_position)),True,(0,0,0))
+
+        screen.blit(mapbackground,[0,0])
+        screen.blit(usercopy,(x,y))
+        screen.blit(COORDENADAS,(0,0))
+        screen.blit(COORDENADAS_RECT,(0,10))
         pygame.display.update()
 
 
