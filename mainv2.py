@@ -43,7 +43,7 @@ def mainmenu(click):
 
         if button_1.collidepoint((mx,my)):
             if click:
-                up_map(click)
+                up_map()
         
         if button_2.collidepoint((mx,my)):
             if click:
@@ -69,7 +69,7 @@ def mainmenu(click):
         pygame.display.update()
 
 
-def up_map(click):
+def up_map():
 
     running = True
     
@@ -102,15 +102,12 @@ def up_map(click):
             if event.type == pygame.KEYDOWN:
                 if event.key==K_w:
                     yspeed = -0.25
-                    user_rect.move_ip(0,-0.25)
                     usercopy=pygame.transform.rotate(user,0)
                 if event.key==K_s:
                     yspeed = 0.25
-                    user_rect.move_ip(0,0.25)
                     usercopy=pygame.transform.rotate(user,180)
                 if event.key==K_d:
                     xspeed = 0.25
-                    user_rect.move_ip(0.25,0)
                     usercopy=pygame.transform.rotate(user,-90)
                 if event.key==K_a:
                     xspeed = -0.25
@@ -131,6 +128,8 @@ def up_map(click):
         x += xspeed
         y += yspeed
         user_position = (x,y)
+        user_rect.x = x
+        user_rect.y = y
         user_rect_position=(user_rect.x,user_rect.y)
         COORDENADAS = font.render(str("Cordenadas objeto"+str(user_position)),True,(0,0,0))
         user_rect_position = (user_rect.x,user_rect.y)
